@@ -1,0 +1,76 @@
+.ORIG x3000
+
+;
+Load the positive value from memory into R0
+
+LD R0, POSITIVE_VALUE
+
+
+
+; Load the negative value from memory into R1
+
+LD R1, NEGATIVE_VALUE
+
+
+; Add the positive and negative values
+
+ADD R2, R0, R1
+
+
+; Check the sum and store the appropriate value in the specified memory location
+
+BRp POSITIVE_SUM 
+; Branch if the sum is positive
+
+BRn NEGATIVE_SUM   ; Branch if the sum is negative
+
+BRz ZERO_SUM       ; Branch if the sum is zero
+
+
+; Code to handle positive sum
+
+POSITIVE_SUM:
+  
+  AND R3, R3, #0  ; Clear R3
+
+    ADD R3, R3, #1  ; Store 1 in R3
+ (positive)
+    
+BR END
+
+
+; Code to handle negative sum
+
+NEGATIVE_SUM:
+
+    AND R3, R3, #0  ; Clear R3
+
+    ADD R3, R3, #-1 ; Store -1 in R3 
+(negative)
+
+    BR END
+
+
+; Code to handle zero sum
+
+ZERO_SUM:
+
+    AND R3, R3, #0  ; Clear R3
+  
+  BR END
+
+
+; End of the program
+
+END:
+    
+; Store the result in the specified memory location
+    ST R3, RESULT
+
+    HALT
+
+POSITIVE_VALUE:  .FILL #10  ; The memory location containing the positive value
+NEGATIVE_VALUE:  .FILL #-5  ; The memory location containing the negative value
+RESULT:         .BLKW 1      ; The memory location to store the result
+
+.END
